@@ -45,8 +45,8 @@ app.post('/euggrush-tg-bot', async (req, res) => {
 
     if (messageText === 'joke') {
         try {
-            const response = await axios(JOKE_API)
-            responseText = response.data.joke
+            const response = await axios(JOKE_API) || `Нету шуток`;
+            responseText = response.data.joke;
         } catch (e) {
             console.log(e)
             res.send(e)
