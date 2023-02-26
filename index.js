@@ -28,11 +28,11 @@ await doc.useServiceAccountAuth({
     private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n')
 });
 
-app.get('/', (req, res) => {
+app.get('/euggrush-tg-bot', (req, res) => {
     res.send('euggrush telegram bot')
 });
 
-app.post('/new-message', async (req, res) => {
+app.post('/euggrush-tg-bot', async (req, res) => {
 
     const { message } = req.body;
     const messageText = message?.text?.toLowerCase()?.trim();
