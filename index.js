@@ -41,11 +41,23 @@ app.post('/euggrush-tg-bot', async (req, res) => {
         return res.sendStatus(400)
     };
 
+    await doc.loadInfo();
+    const sheet = doc.sheetsByIndex[0];
+    const rows = await sheet.getRows();
+
+    const dataFromSpreadsheet = rows.reduce((obj, row) => {
+        if (row.date) {
+            const todo = { text: row.text, done: row.done }
+            obj[row.date] = obj[row.date] ? [...obj[row.date], todo] : [todo]
+        }
+        return obj
+    }, {});
+
     let responseText = 'I have nothing to say.';
 
     if (messageText === 'joke') {
         try {
-            const response = await axios(JOKE_API) || `Нету шуток`;
+            const response = await axios(JOKE_API);
             responseText = response.data.joke;
         } catch (e) {
             console.log(e)
