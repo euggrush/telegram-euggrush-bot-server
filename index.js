@@ -32,7 +32,7 @@ app.get('/euggrush-tg-bot', (req, res) => {
 
 app.post(`/euggrush-tg-bot`, (req, res) => {
     // Process the incoming message using your bot's `on` method
-    console.log(req.body);
+    console.log(`hahaha`);
 
     bot.processUpdate(req.body);
     res.sendStatus(200);
