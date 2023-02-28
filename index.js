@@ -10,7 +10,7 @@ const YOUR_OPENAI_API_KEY = process.env.YOUR_OPENAI_API_KEY;
 const YOUR_BOT_TOKEN = process.env.YOUR_BOT_TOKEN;
 
 // Create a new Telegram bot instance with your bot token
-const bot = new TelegramBot(YOUR_BOT_TOKEN, { polling: true });
+const bot = new TelegramBot(YOUR_BOT_TOKEN, { polling: false });
 
 // Create a new OpenAI API client instance with your API key
 
