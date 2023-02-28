@@ -70,8 +70,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import TelegramBot from 'node-telegram-bot-api';
+import { config } from 'dotenv';
+config();
 
-const YOUR_BOT_TOKEN = process.env.YOUR_BOT_TOKEN;
+const YOUR_BOT_TOKEN = process.env.TELEGRAM_API_TOKEN;
 
 // Create a new Telegram bot instance with your bot token
 const bot = new TelegramBot(YOUR_BOT_TOKEN, { polling: false });
