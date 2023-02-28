@@ -30,10 +30,10 @@ app.get('/euggrush-tg-bot', (req, res) => {
 
 // Define a route to handle incoming webhook requests from Telegram
 
-app.post(`/euggrush-tg-bot${bot.token}`, (req, res) => {
+app.post(`/euggrush-tg-bot`, (req, res) => {
     // Process the incoming message using your bot's `on` method
     console.log(req.body);
-    
+
     bot.processUpdate(req.body);
     res.sendStatus(200);
 });
