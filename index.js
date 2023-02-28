@@ -1,87 +1,62 @@
-import axios from 'axios'
-// import fs from 'fs-extra'
-// import { join } from 'path'
-import { config } from 'dotenv'
-import express from 'express'
-import { GoogleSpreadsheet } from 'google-spreadsheet'
+import express from 'express';
+import bodyParser from 'body-parser';
+import TelegramBot from 'node-telegram-bot-api';
+import { OpenAIApi } from 'openai';
 
-config()
-const app = express()
+import { config } from 'dotenv';
+config();
 
-const JOKE_API = 'https://v2.jokeapi.dev/joke/Programming?type=single'
-const TELEGRAM_URI = `https://api.telegram.org/bot${process.env.TELEGRAM_API_TOKEN}/sendMessage`
+const YOUR_OPENAI_API_KEY = process.env.YOUR_OPENAI_API_KEY;
+const YOUR_BOT_TOKEN = process.env.YOUR_BOT_TOKEN;
 
-app.use(express.json())
-app.use(
-    express.urlencoded({
-        extended: true
-    })
-)
+// Create a new Telegram bot instance with your bot token
+const bot = new TelegramBot(YOUR_BOT_TOKEN, { polling: true });
 
-const doc = new GoogleSpreadsheet(process.env.GOOGLE_SPREADSHEET_ID)
-await doc.useServiceAccountAuth({
-    client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-    private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n')
-})
+// Create a new OpenAI API client instance with your API key
 
-app.get('/euggrush-tg-bot', (req, res) => {
-    res.send('euggrush telegram bot')
+const openai = new OpenAIApi({
+    apiKey: YOUR_OPENAI_API_KEY,
 });
 
-app.post('/euggrush-tg-bot', async (req, res) => {
-    const { message } = req.body
+// Create a new Express.js application
+const app = express();
 
-    const messageText = message?.text?.toLowerCase()?.trim()
-    const chatId = message?.chat?.id
-    if (!messageText || !chatId) {
-        return res.sendStatus(400)
-    }
+// Use body-parser middleware to parse incoming JSON requests
+app.use(bodyParser.json());
 
-    // local json
-    // const dataFromJson = fs.readJSONSync(join(process.cwd(), 'todos.json'))
+app.get('/euggrush-tg-bot', (req, res) => {
+    res.send('here is euggrush telegram bot');
+});
 
-    // google spreadsheet
-    await doc.loadInfo()
-    const sheet = doc.sheetsByIndex[0]
-    const rows = await sheet.getRows()
-    const dataFromSpreadsheet = rows.reduce((obj, row) => {
-        if (row.date) {
-            const todo = { text: row.text, done: row.done }
-            obj[row.date] = obj[row.date] ? [...obj[row.date], todo] : [todo]
-        }
-        return obj
-    }, {})
+// Define a route to handle incoming webhook requests from Telegram
 
-    let responseText = 'I have nothing to say.'
-    // generate responseText
-    if (messageText === 'joke') {
-        try {
-            const response = await axios(JOKE_API)
-            responseText = response.data.joke
-        } catch (e) {
-            console.log(e)
-            res.send(e)
-        }
-    } else if (/\d\d\.\d\d/.test(messageText)) {
-        // responseText = dataFromJson[messageText] || 'You have nothing to do on this day.'
-        responseText =
-            dataFromSpreadsheet[messageText] || 'You have nothing to do on this day.'
-    }
+app.post(`/euggrush-tg-bot`, (req, res) => {
+    // Process the incoming message using your bot's `on` method
+    bot.processUpdate(req.body);
+    res.sendStatus(200);
+});
 
-    // send response
-    try {
-        await axios.post(TELEGRAM_URI, {
-            chat_id: chatId,
-            text: responseText
-        })
-        res.send('Done')
-    } catch (e) {
-        console.log(e)
-        res.send(e)
-    }
-})
+// Start the Express.js application on port 3333
+app.listen(3333, () => {
+    console.log('Express.js server running on port 3333');
+});
 
-const PORT = process.env.PORT || 3333
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-})
+// Handle incoming messages with the bot's `on` method
+
+bot.on('message', async (msg) => {
+    // Generate a response using ChatGPT
+    const prompt = `User: ${msg.text}\nChatGPT:`;
+    const response = await openai.complete({
+        engine: 'davinci',
+        prompt,
+        maxTokens: 150,
+        n: 1,
+        stop: '\n',
+    });
+
+    // Extract the generated response text from the API response
+    const generatedText = response.data.choices[0].text.trim();
+
+    // Respond to the user's message with the generated response
+    bot.sendMessage(msg.chat.id, generatedText);
+});
