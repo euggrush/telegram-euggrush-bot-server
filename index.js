@@ -5,16 +5,17 @@ import fetch from 'node-fetch';
 import { config } from 'dotenv';
 config();
 
-const YOUR_BOT_TOKEN = process.env.TELEGRAM_API_TOKEN;
-const YOUR_OPENAI_API_KEY = process.env.YOUR_OPENAI_API_KEY;
+const BOT_TOKEN = process.env.TELEGRAM_API_TOKEN;
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 // Create a new Telegram bot instance with your bot token
-const bot = new TelegramBot(YOUR_BOT_TOKEN, { polling: false });
+const bot = new TelegramBot(BOT_TOKEN, { polling: false });
 
 import { Configuration, OpenAIApi } from 'openai';
 
 const configuration = new Configuration({
-    apiKey: YOUR_OPENAI_API_KEY,
+    organization: `org-WeLnbfOiob7WoLEsKkr0mCfu`,
+    apiKey: OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
