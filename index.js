@@ -71,13 +71,17 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import TelegramBot from 'node-telegram-bot-api';
 import fetch from 'node-fetch';
+import { OpenAIApi } from 'openai';
 import { config } from 'dotenv';
 config();
 
 const YOUR_BOT_TOKEN = process.env.TELEGRAM_API_TOKEN;
+const YOUR_OPENAI_API_KEY = process.env.YOUR_OPENAI_API_KEY;
 
 // Create a new Telegram bot instance with your bot token
 const bot = new TelegramBot(YOUR_BOT_TOKEN, { polling: false });
+
+const openai = new OpenAIApi(YOUR_OPENAI_API_KEY);
 
 // Create a new Express.js application
 const app = express();
@@ -102,12 +106,6 @@ app.listen(3333, () => {
 });
 
 // Handle incoming messages with the bot's `on` method
-// bot.on('message', (msg) => {
-//     // Respond to the user's message with a text message
-//     bot.sendMessage(msg.chat.id, `Hello, ${msg.from.first_name}!`);
-// });
-
-// Handle incoming messages with the bot's `on` method
 bot.on('message', async (msg) => {
     // If the message contains the word "joke", generate a joke using the JokeAPI
     if (msg.text && msg.text.toLowerCase().includes('joke')) {
@@ -124,6 +122,21 @@ bot.on('message', async (msg) => {
             bot.sendMessage(msg.chat.id, 'Sorry, I could not generate a joke at this time.');
         }
     } else {
-        bot.sendMessage(msg.chat.id, `Hello, ${msg.from.first_name}!`);
+        // bot.sendMessage(msg.chat.id, `Hello, ${msg.from.first_name}!`);
+        // Generate a response using ChatGPT
+        const prompt = `User: ${msg.text}\nChatGPT:`;
+        const response = await openai.complete({
+            engine: 'davinci',
+            prompt,
+            maxTokens: 150,
+            n: 1,
+            stop: '\n',
+        });
+
+        // Extract the generated response text from the API response
+        const generatedText = response.data.choices[0].text.trim();
+
+        // Respond to the user's message with the generated response
+        bot.sendMessage(msg.chat.id, generatedText);
     }
 });
