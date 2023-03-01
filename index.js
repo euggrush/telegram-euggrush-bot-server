@@ -69,7 +69,9 @@ bot.on('message', async (msg) => {
         });
 
         // Extract the generated response text from the API response
-        const generatedText = response.data.choices[0].text.trim();
+        // const generatedText = response.data.choices[0].text.trim();
+
+        const generatedText = `HAHAHAHAHA`;
 
         // Respond to the user's message with the generated response
         bot.sendMessage(msg.chat.id, generatedText);
