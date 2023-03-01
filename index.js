@@ -123,5 +123,7 @@ bot.on('message', async (msg) => {
             console.error(error);
             bot.sendMessage(msg.chat.id, 'Sorry, I could not generate a joke at this time.');
         }
+    } else {
+        bot.sendMessage(msg.chat.id, `Hello, ${msg.from.first_name}!`);
     }
 });
