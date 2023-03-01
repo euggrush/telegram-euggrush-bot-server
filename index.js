@@ -70,7 +70,7 @@ bot.on('message', async (msg) => {
 
         let request = JSON.stringify({
             model: 'text-davinci-002',
-            prompt: msg.text,
+            prompt: `${msg.text}\nChatGPT:`,
             // maxTokens: 150,
             // n: 1,
             // stop: '\n',
