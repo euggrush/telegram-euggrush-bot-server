@@ -61,7 +61,7 @@ bot.on('message', async (msg) => {
         // Generate a response using ChatGPT
         const prompt = `User: ${msg.text}\nChatGPT:`;
         const response = await openai.createCompletion({
-            engine: 'davinci',
+            model: 'davinci',
             prompt,
             maxTokens: 150,
             n: 1,
@@ -69,9 +69,7 @@ bot.on('message', async (msg) => {
         });
 
         // Extract the generated response text from the API response
-        // const generatedText = response.data.choices[0].text.trim();
-
-        const generatedText = `HAHAHAHAHA`;
+        const generatedText = response.data.choices[0].text.trim();
 
         // Respond to the user's message with the generated response
         bot.sendMessage(msg.chat.id, generatedText);
