@@ -66,14 +66,13 @@ bot.on('message', async (msg) => {
         }
     } else {
         // Generate a response using ChatGPT
-        // const prompt = `User: ${msg.text}\nChatGPT:`;
+        const prompt = `User: ${msg.text}\nChatGPT:`;
 
         let request = JSON.stringify({
-            model: 'text-davinci-002',
-            prompt: `${msg.text}\nChatGPT:`,
-            // maxTokens: 150,
-            // n: 1,
-            // stop: '\n',
+            model: 'text-davinci-003',
+            prompt,
+            n: 1,
+            stop: '\n',
         })
         const response = await openai.createCompletion(request);
 
