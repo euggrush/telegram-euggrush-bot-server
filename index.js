@@ -70,6 +70,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import TelegramBot from 'node-telegram-bot-api';
+import fetch from 'node-fetch';
 import { config } from 'dotenv';
 config();
 
@@ -101,7 +102,26 @@ app.listen(3333, () => {
 });
 
 // Handle incoming messages with the bot's `on` method
-bot.on('message', (msg) => {
-    // Respond to the user's message with a text message
-    bot.sendMessage(msg.chat.id, `Hello, ${msg.from.first_name}!`);
+// bot.on('message', (msg) => {
+//     // Respond to the user's message with a text message
+//     bot.sendMessage(msg.chat.id, `Hello, ${msg.from.first_name}!`);
+// });
+
+// Handle incoming messages with the bot's `on` method
+bot.on('message', async (msg) => {
+    // If the message contains the word "joke", generate a joke using the JokeAPI
+    if (msg.text && msg.text.toLowerCase().includes('joke')) {
+        try {
+            const response = await fetch('https://v2.jokeapi.dev/joke/Any');
+            const data = await response.json();
+            if (data.type === 'single') {
+                bot.sendMessage(msg.chat.id, data.joke);
+            } else if (data.type === 'twopart') {
+                bot.sendMessage(msg.chat.id, `${data.setup}\n\n${data.delivery}`);
+            }
+        } catch (error) {
+            console.error(error);
+            bot.sendMessage(msg.chat.id, 'Sorry, I could not generate a joke at this time.');
+        }
+    }
 });
