@@ -2,16 +2,23 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import TelegramBot from 'node-telegram-bot-api';
 import fetch from 'node-fetch';
-import { config } from 'dotenv';
+import {
+    config
+} from 'dotenv';
 config();
 
 const BOT_TOKEN = process.env.TELEGRAM_API_TOKEN;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 // Create a new Telegram bot instance with your bot token
-const bot = new TelegramBot(BOT_TOKEN, { polling: false });
+const bot = new TelegramBot(BOT_TOKEN, {
+    polling: false
+});
 
-import { Configuration, OpenAIApi } from 'openai';
+import {
+    Configuration,
+    OpenAIApi
+} from 'openai';
 
 const configuration = new Configuration({
     organization: `org-WeLnbfOiob7WoLEsKkr0mCfu`,
@@ -60,13 +67,15 @@ bot.on('message', async (msg) => {
     } else {
         // Generate a response using ChatGPT
         const prompt = `User: ${msg.text}\nChatGPT:`;
-        const response = await openai.createCompletion({
-            model: 'davinci',
+
+        let request = JSON.stringify({
+            model: 'text-davinci-003',
             prompt,
             maxTokens: 150,
             n: 1,
             stop: '\n',
-        });
+        })
+        const response = await openai.createCompletion(request);
 
         // Extract the generated response text from the API response
         const generatedText = response.data.choices[0].text.trim();
