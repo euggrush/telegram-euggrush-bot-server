@@ -48,6 +48,39 @@ app.listen(3333, () => {
     console.log('Express.js server running on port 3333');
 });
 
+// Define the menu buttons
+const menu = [
+    [
+        {
+            text: 'Button 1',
+            callback_data: 'button1'
+        },
+        {
+            text: 'Button 2',
+            callback_data: 'button2'
+        }
+    ],
+    [
+        {
+            text: 'Button 3',
+            callback_data: 'button3'
+        },
+        {
+            text: 'Button 4',
+            callback_data: 'button4'
+        }
+    ]
+];
+
+// Respond to the /start command with the menu
+bot.onText(/\/start/, (msg) => {
+    bot.sendMessage(msg.chat.id, 'Choose an option:', {
+        reply_markup: {
+            inline_keyboard: menu
+        }
+    });
+});
+
 // Handle incoming messages with the bot's `on` method
 bot.on('message', async (msg) => {
     // If the message contains the word "joke", generate a joke using the JokeAPI
@@ -78,15 +111,6 @@ bot.on('message', async (msg) => {
         const generatedText = response.data.choices[0].text.trim();
 
         // Respond to the user's message with the generated response
-        bot.sendMessage(msg.chat.id, generatedText, {
-            reply_markup: {
-                inline_keyboard: [
-                    [
-                        { text: 'Yes', callback_data: 'yes' },
-                        { text: 'No', callback_data: 'no' }
-                    ]
-                ]
-            }
-        });
+        bot.sendMessage(msg.chat.id, generatedText);
     }
 });
