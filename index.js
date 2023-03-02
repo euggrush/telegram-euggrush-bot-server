@@ -114,3 +114,11 @@ bot.on('message', async (msg) => {
         bot.sendMessage(msg.chat.id, generatedText);
     }
 });
+
+// Handle button presses
+bot.on('callback_query', (callbackQuery) => {
+    const chatId = callbackQuery.message.chat.id;
+    const button = callbackQuery.data;
+
+    bot.sendMessage(chatId, `You pressed button ${button}`);
+});
