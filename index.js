@@ -64,15 +64,13 @@ bot.on('message', async (msg) => {
             console.error(error);
             bot.sendMessage(msg.chat.id, 'Sorry, I could not generate a joke at this time.');
         }
-    } else {
+    } else if (msg.text && msg.text.toLowerCase().includes('Chat GPT')) {
         // Generate a response using ChatGPT
         const prompt = `User: ${msg.text}\nChatGPT:`;
 
         let request = JSON.stringify({
             model: 'text-davinci-003',
-            prompt,
-            n: 1,
-            stop: '\n',
+            prompt
         })
         const response = await openai.createCompletion(request);
 
