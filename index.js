@@ -78,6 +78,15 @@ bot.on('message', async (msg) => {
         const generatedText = response.data.choices[0].text.trim();
 
         // Respond to the user's message with the generated response
-        bot.sendMessage(msg.chat.id, generatedText);
+        bot.sendMessage(msg.chat.id, generatedText, {
+            reply_markup: {
+                inline_keyboard: [
+                    [
+                        { text: 'Yes', callback_data: 'yes' },
+                        { text: 'No', callback_data: 'no' }
+                    ]
+                ]
+            }
+        });
     }
 });
