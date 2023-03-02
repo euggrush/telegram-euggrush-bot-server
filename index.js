@@ -64,7 +64,7 @@ bot.on('message', async (msg) => {
             console.error(error);
             bot.sendMessage(msg.chat.id, 'Sorry, I could not generate a joke at this time.');
         }
-    } else if (msg.text && msg.text.toLowerCase().includes('Chat GPT')) {
+    } else {
         // Generate a response using ChatGPT
         const prompt = `User: ${msg.text}\nChatGPT:`;
 
