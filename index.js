@@ -86,7 +86,7 @@ const getJoke = async () => {
     const data = await response.json();
     // bot.sendMessage(msg.chat.id ? msg.chat.id : chatId, data.joke);
 
-    return data.joke;
+    return `data.joke`;
 };
 
 const getChatGpt = async (msg) => {
