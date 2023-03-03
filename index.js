@@ -81,22 +81,13 @@ bot.onText(/\/start/, (msg) => {
     });
 });
 
-const getJoke = async (msg) => {
-    try {
-        const response = await fetch('https://v2.jokeapi.dev/joke/Any');
-        const data = await response.json();
-        if (data.type === 'single') {
-            bot.sendMessage(msg.chat.id, data.joke);
-        } else if (data.type === 'twopart') {
-            bot.sendMessage(msg.chat.id, `${data.setup}\n\n${data.delivery}`);
-        }
-    } catch (error) {
-        console.error(error);
-        bot.sendMessage(msg.chat.id, 'Sorry, I could not generate a joke at this time.');
-    }
+const getJoke = async (chatId, msg) => {
+    const response = await fetch('https://v2.jokeapi.dev/joke/Any');
+    const data = await response.json();
+    bot.sendMessage(msg.chat.id ? msg.chat.id : chatId, data.joke);
 };
 
-const getChatGpt = async (msg) => {
+const getChatGpt = async (chatId, msg) => {
     // Generate a response using ChatGPT
     const prompt = `User: ${msg.text}\nChatGPT:`;
 
@@ -110,14 +101,14 @@ const getChatGpt = async (msg) => {
     const generatedText = response.data.choices[0].text.trim();
 
     // Respond to the user's message with the generated response
-    bot.sendMessage(msg.chat.id, generatedText);
+    bot.sendMessage(msg.chat.id ? msg.chat.id : chatId, generatedText);
 };
 
-const getRespondFromBot = (arg) => {
+const getRespondFromBot = (chatId, arg) => {
     if (arg === `joke`) {
-        getJoke(arg);
+        getJoke(chatId, arg);
     } else if (arg === `chatgpt`) {
-        getChatGpt(arg);
+        getChatGpt(chatId, arg);
     }
 };
 
@@ -136,5 +127,5 @@ bot.on('callback_query', (callbackQuery) => {
     const chatId = callbackQuery.message.chat.id;
     const button = callbackQuery.data;
 
-    bot.sendMessage(chatId, getRespondFromBot(button));
+    bot.sendMessage(chatId, getRespondFromBot(chatId, button));
 });
