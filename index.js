@@ -96,26 +96,30 @@ const getJoke = async (msg) => {
     }
 };
 
+const getChatGpt = async (msg) => {
+    // Generate a response using ChatGPT
+    const prompt = `User: ${msg.text}\nChatGPT:`;
+
+    let request = JSON.stringify({
+        model: 'text-davinci-003',
+        prompt
+    })
+    const response = await openai.createCompletion(request);
+
+    // Extract the generated response text from the API response
+    const generatedText = response.data.choices[0].text.trim();
+
+    // Respond to the user's message with the generated response
+    bot.sendMessage(msg.chat.id, generatedText);
+};
+
 // Handle incoming messages with the bot's `on` method
 bot.on('message', async (msg) => {
     // If the message contains the word "joke", generate a joke using the JokeAPI
     if (msg.text && msg.text.toLowerCase().includes('joke')) {
         getJoke(msg);
     } else {
-        // Generate a response using ChatGPT
-        const prompt = `User: ${msg.text}\nChatGPT:`;
-
-        let request = JSON.stringify({
-            model: 'text-davinci-003',
-            prompt
-        })
-        const response = await openai.createCompletion(request);
-
-        // Extract the generated response text from the API response
-        const generatedText = response.data.choices[0].text.trim();
-
-        // Respond to the user's message with the generated response
-        bot.sendMessage(msg.chat.id, generatedText);
+        getChatGpt(msg);
     }
 });
 
