@@ -82,34 +82,36 @@ bot.onText(/\/start/, (msg) => {
 });
 
 const getJoke = async () => {
-    const response = await fetch('https://v2.jokeapi.dev/joke/Any');
-    const data = await response.json();
+    // const response = await fetch('https://v2.jokeapi.dev/joke/Any');
+    // const data = await response.json();
     // bot.sendMessage(msg.chat.id ? msg.chat.id : chatId, data.joke);
 
     return `data.joke`;
 };
 
-const getChatGpt = async (msg) => {
-    // Generate a response using ChatGPT
-    const prompt = `User: ${msg.text}\nChatGPT:`;
+// const getChatGpt = async (msg) => {
+//     // Generate a response using ChatGPT
+//     const prompt = `User: ${msg.text}\nChatGPT:`;
 
-    let request = JSON.stringify({
-        model: 'text-davinci-003',
-        prompt
-    })
-    const response = await openai.createCompletion(request);
+//     let request = JSON.stringify({
+//         model: 'text-davinci-003',
+//         prompt
+//     })
+//     const response = await openai.createCompletion(request);
 
-    // Extract the generated response text from the API response
-    const generatedText = response.data.choices[0].text.trim();
+//     // Extract the generated response text from the API response
+//     const generatedText = response.data.choices[0].text.trim();
 
-    // Respond to the user's message with the generated response
-    bot.sendMessage(msg.chat.id, generatedText);
-};
+//     // Respond to the user's message with the generated response
+//     bot.sendMessage(msg.chat.id, generatedText);
+// };
 
 const getRespondFromBot = (chatId, arg) => {
-    if (arg === `joke`) {
-        getJoke();
-    }
+    getJoke();
+
+    // if (arg === `joke`) {
+    //     getJoke();
+    // }
 };
 
 // Handle incoming messages with the bot's `on` method
