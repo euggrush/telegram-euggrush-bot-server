@@ -81,7 +81,7 @@ bot.onText(/\/start/, (msg) => {
     });
 });
 
-const getJoke = async () => {
+const getJoke = async (msg) => {
     try {
         const response = await fetch('https://v2.jokeapi.dev/joke/Any');
         const data = await response.json();
@@ -100,20 +100,7 @@ const getJoke = async () => {
 bot.on('message', async (msg) => {
     // If the message contains the word "joke", generate a joke using the JokeAPI
     if (msg.text && msg.text.toLowerCase().includes('joke')) {
-        // try {
-        //     const response = await fetch('https://v2.jokeapi.dev/joke/Any');
-        //     const data = await response.json();
-        //     if (data.type === 'single') {
-        //         bot.sendMessage(msg.chat.id, data.joke);
-        //     } else if (data.type === 'twopart') {
-        //         bot.sendMessage(msg.chat.id, `${data.setup}\n\n${data.delivery}`);
-        //     }
-        // } catch (error) {
-        //     console.error(error);
-        //     bot.sendMessage(msg.chat.id, 'Sorry, I could not generate a joke at this time.');
-        // }
-        
-        getJoke();
+        getJoke(msg);
     } else {
         // Generate a response using ChatGPT
         const prompt = `User: ${msg.text}\nChatGPT:`;
