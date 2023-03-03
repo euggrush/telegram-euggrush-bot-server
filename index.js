@@ -81,13 +81,15 @@ bot.onText(/\/start/, (msg) => {
     });
 });
 
-const getJoke = async (chatId, msg) => {
+const getJoke = async () => {
     const response = await fetch('https://v2.jokeapi.dev/joke/Any');
     const data = await response.json();
-    bot.sendMessage(msg.chat.id ? msg.chat.id : chatId, data.joke);
+    // bot.sendMessage(msg.chat.id ? msg.chat.id : chatId, data.joke);
+
+    return data.joke;
 };
 
-const getChatGpt = async (chatId, msg) => {
+const getChatGpt = async (msg) => {
     // Generate a response using ChatGPT
     const prompt = `User: ${msg.text}\nChatGPT:`;
 
@@ -101,25 +103,24 @@ const getChatGpt = async (chatId, msg) => {
     const generatedText = response.data.choices[0].text.trim();
 
     // Respond to the user's message with the generated response
-    bot.sendMessage(msg.chat.id ? msg.chat.id : chatId, generatedText);
+    bot.sendMessage(msg.chat.id, generatedText);
 };
 
 const getRespondFromBot = (chatId, arg) => {
     if (arg === `joke`) {
-        getJoke(chatId, arg);
-    } else if (arg === `chatgpt`) {
-        getChatGpt(chatId, arg);
+        getJoke();
     }
 };
 
 // Handle incoming messages with the bot's `on` method
 bot.on('message', async (msg) => {
     // If the message contains the word "joke", generate a joke using the JokeAPI
-    if (msg.text && msg.text.toLowerCase().includes('joke')) {
-        getJoke(msg);
-    } else {
-        getChatGpt(msg);
-    }
+    getChatGpt(msg);
+    // if (msg.text && msg.text.toLowerCase().includes('joke')) {
+    //     getJoke(msg);
+    // } else {
+    //     getChatGpt(msg);
+    // }
 });
 
 // Handle button presses
