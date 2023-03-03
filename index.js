@@ -52,8 +52,8 @@ app.listen(3333, () => {
 const menu = [
     [
         {
-            text: 'Button 1',
-            callback_data: 'button1'
+            text: 'Joke',
+            callback_data: 'joke'
         },
         {
             text: 'Button 2',
