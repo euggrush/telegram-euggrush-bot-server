@@ -56,8 +56,8 @@ const menu = [
             callback_data: 'joke'
         },
         {
-            text: 'Button 2',
-            callback_data: 'button2'
+            text: 'Talk to Bot ',
+            callback_data: 'chatgpt'
         }
     ],
     [
@@ -113,6 +113,14 @@ const getChatGpt = async (msg) => {
     bot.sendMessage(msg.chat.id, generatedText);
 };
 
+const getRespondFromBot = (arg) => {
+    if (arg === `joke`) {
+        getJoke(arg);
+    } else if (arg === `chatgpt`) {
+        getChatGpt(arg);
+    }
+};
+
 // Handle incoming messages with the bot's `on` method
 bot.on('message', async (msg) => {
     // If the message contains the word "joke", generate a joke using the JokeAPI
@@ -128,5 +136,5 @@ bot.on('callback_query', (callbackQuery) => {
     const chatId = callbackQuery.message.chat.id;
     const button = callbackQuery.data;
 
-    bot.sendMessage(chatId, `You pressed button ${button}`);
+    bot.sendMessage(chatId, getRespondFromBot(button));
 });
