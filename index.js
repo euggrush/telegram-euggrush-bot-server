@@ -113,15 +113,15 @@ const getRespondFromBot = (chatId, arg) => {
 };
 
 // Handle incoming messages with the bot's `on` method
-bot.on('message', async (msg) => {
-    // If the message contains the word "joke", generate a joke using the JokeAPI
-    getChatGpt(msg);
-    // if (msg.text && msg.text.toLowerCase().includes('joke')) {
-    //     getJoke(msg);
-    // } else {
-    //     getChatGpt(msg);
-    // }
-});
+// bot.on('message', async (msg) => {
+//     // If the message contains the word "joke", generate a joke using the JokeAPI
+//     getChatGpt(msg);
+//     // if (msg.text && msg.text.toLowerCase().includes('joke')) {
+//     //     getJoke(msg);
+//     // } else {
+//     //     getChatGpt(msg);
+//     // }
+// });
 
 // Handle button presses
 bot.on('callback_query', (callbackQuery) => {
