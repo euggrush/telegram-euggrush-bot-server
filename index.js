@@ -119,5 +119,6 @@ bot.on('callback_query', async (callbackQuery) => {
     const response = await fetch('https://v2.jokeapi.dev/joke/Any');
     const data = await response.json();
     const joke = data.joke;
+
     bot.sendMessage(chatId, joke);
 });
