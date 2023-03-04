@@ -81,14 +81,6 @@ bot.onText(/\/start/, (msg) => {
     });
 });
 
-const getJoke = async () => {
-    // const response = await fetch('https://v2.jokeapi.dev/joke/Any');
-    // const data = await response.json();
-    // bot.sendMessage(msg.chat.id ? msg.chat.id : chatId, data.joke);
-
-    return `data.joke`;
-};
-
 // const getChatGpt = async (msg) => {
 //     // Generate a response using ChatGPT
 //     const prompt = `User: ${msg.text}\nChatGPT:`;
@@ -106,14 +98,6 @@ const getJoke = async () => {
 //     bot.sendMessage(msg.chat.id, generatedText);
 // };
 
-const getRespondFromBot = (chatId, arg) => {
-    getJoke();
-
-    // if (arg === `joke`) {
-    //     getJoke();
-    // }
-};
-
 // Handle incoming messages with the bot's `on` method
 // bot.on('message', async (msg) => {
 //     // If the message contains the word "joke", generate a joke using the JokeAPI
@@ -128,14 +112,14 @@ const getRespondFromBot = (chatId, arg) => {
 // Handle button presses
 
 bot.on('callback_query', (callbackQuery) => {
+    console.log(callbackQuery);
+    
     const chatId = callbackQuery.message.chat.id;
     const button = callbackQuery.data;
 
-    bot.sendMessage(chatId, async (chatId) => {
+    bot.sendMessage(chatId, async () => {
         const response = await fetch('https://v2.jokeapi.dev/joke/Any');
         const data = await response.json();
-        // bot.sendMessage(msg.chat.id ? msg.chat.id : chatId, data.joke);
-
         return data.joke;
     });
 });
