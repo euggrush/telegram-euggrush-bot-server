@@ -111,10 +111,15 @@ bot.onText(/\/start/, (msg) => {
 
 // Get some jokes
 const getJoke = async () => {
-    const response = await fetch('https://v2.jokeapi.dev/joke/Any');
-    const data = await response.json();
-    return data.joke;
-}
+    try {
+        const response = await fetch('https://v2.jokeapi.dev/joke/Any');
+        const data = await response.json();
+        return data.joke;
+    } catch (error) {
+        console.log(`Error: ${error}`);
+    }
+};
+
 
 // Handle button presses
 bot.on('callback_query', async (callbackQuery) => {
