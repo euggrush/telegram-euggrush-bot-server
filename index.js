@@ -111,7 +111,7 @@ bot.onText(/\/start/, (msg) => {
 
 // Handle button presses
 
-bot.on('callback_query', (callbackQuery) => {
+bot.on('callback_query', async (callbackQuery) => {
     console.log(callbackQuery);
 
     const chatId = callbackQuery.message.chat.id;
