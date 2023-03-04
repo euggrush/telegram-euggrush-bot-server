@@ -109,6 +109,23 @@ bot.onText(/\/start/, (msg) => {
 //     // }
 // });
 
+// // Handle button presses
+// bot.on('callback_query', async (callbackQuery) => {
+//     console.log(callbackQuery);
+
+//     const chatId = callbackQuery.message.chat.id;
+//     const button = callbackQuery.data;
+
+//     const response = await fetch('https://v2.jokeapi.dev/joke/Any');
+//     const data = await response.json();
+//     const joke = data.joke;
+
+//     // if (button == `joke`) {
+//     //     bot.sendMessage(chatId, joke);
+//     // }
+//     bot.sendMessage(chatId, joke);
+// });
+
 // Handle button presses
 bot.on('callback_query', async (callbackQuery) => {
     console.log(callbackQuery);
@@ -120,8 +137,6 @@ bot.on('callback_query', async (callbackQuery) => {
     const data = await response.json();
     const joke = data.joke;
 
-    // if (button == `joke`) {
-    //     bot.sendMessage(chatId, joke);
-    // }
     bot.sendMessage(chatId, joke);
 });
+
