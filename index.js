@@ -122,6 +122,8 @@ bot.on('callback_query', (callbackQuery) => {
     //     const data = await response.json();
     //     return data.joke;
     // });
-    
-    bot.sendMessage(chatId, `You pressed button ${button}`);
+
+    bot.sendMessage(chatId, () => {
+        return `You pressed button ${button}`;
+    });
 });
