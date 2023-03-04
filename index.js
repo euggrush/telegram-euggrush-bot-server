@@ -123,14 +123,18 @@ const getJoke = async () => {
 
 // Handle button presses
 bot.on('callback_query', async (callbackQuery) => {
-    console.log(callbackQuery);
-
     const chatId = callbackQuery.message.chat.id;
     const button = callbackQuery.data;
 
     if (button == `joke`) {
         let joke = await getJoke();
-        bot.sendMessage(chatId, joke);
+        bot.sendMessage(chatId, joke).then(() => {
+            bot.sendMessage(chatId, 'Choose an option:', {
+                reply_markup: {
+                    inline_keyboard: menu
+                }
+            });
+        });
     }
 });
 
