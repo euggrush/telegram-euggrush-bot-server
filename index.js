@@ -111,25 +111,16 @@ bot.onText(/\/start/, (msg) => {
 
 // Get some jokes
 const getJoke = async () => {
-    // try {
-    //     const response = await fetch('https://v2.jokeapi.dev/joke/Any');
-    //     const data = await response.json();
-    //     return data.joke;
-    // } catch (error) {
-    //     console.log(`Error: ${error}`);
-    //     return `Sorry, no joke today`;
-    // }
-    
-    let joke;
-    await fetch('https://v2.jokeapi.dev/joke/Any').then((response) => {
-        const data = response.json();
-        joke = data.joke;
-    }).catch((error) => {
+    try {
+        const response = await fetch('https://v2.jokeapi.dev/joke/Any');
+        const data = await response.json();
+        return data.joke;
+    } catch (error) {
         console.log(`Error: ${error}`);
-        joke = `Sorry, no joke today`;
-    })
-    return joke;
+        return `Sorry, no joke today`;
+    }
 };
+
 
 
 // Handle button presses
