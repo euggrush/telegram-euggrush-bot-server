@@ -120,7 +120,7 @@ bot.on('callback_query', async (callbackQuery) => {
     const data = await response.json();
     const joke = data.joke;
 
-    if (button === `joke`) {
+    if (button == `joke`) {
         bot.sendMessage(chatId, joke);
     }
 });
