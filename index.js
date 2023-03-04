@@ -113,13 +113,15 @@ bot.onText(/\/start/, (msg) => {
 
 bot.on('callback_query', (callbackQuery) => {
     console.log(callbackQuery);
-    
+
     const chatId = callbackQuery.message.chat.id;
     const button = callbackQuery.data;
 
-    bot.sendMessage(chatId, async () => {
-        const response = await fetch('https://v2.jokeapi.dev/joke/Any');
-        const data = await response.json();
-        return data.joke;
-    });
+    // bot.sendMessage(chatId, async () => {
+    //     const response = await fetch('https://v2.jokeapi.dev/joke/Any');
+    //     const data = await response.json();
+    //     return data.joke;
+    // });
+    
+    bot.sendMessage(chatId, `You pressed button ${button}`);
 });
