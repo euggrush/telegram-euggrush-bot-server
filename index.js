@@ -131,5 +131,5 @@ bot.on('callback_query', (callbackQuery) => {
     const chatId = callbackQuery.message.chat.id;
     const button = callbackQuery.data;
 
-    bot.sendMessage(chatId, getRespondFromBot(chatId, button));
+    bot.sendMessage(chatId, `getRespondFromBot(chatId, button)`);
 });
