@@ -117,6 +117,7 @@ const getJoke = async () => {
         return data.joke;
     } catch (error) {
         console.log(`Error: ${error}`);
+        return `Sorry, no joke today`;
     }
 };
 
