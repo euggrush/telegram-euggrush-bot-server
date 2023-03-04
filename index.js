@@ -131,5 +131,11 @@ bot.on('callback_query', (callbackQuery) => {
     const chatId = callbackQuery.message.chat.id;
     const button = callbackQuery.data;
 
-    bot.sendMessage(chatId, `getRespondFromBot(chatId, button)`);
+    bot.sendMessage(chatId, async (chatId) => {
+        const response = await fetch('https://v2.jokeapi.dev/joke/Any');
+        const data = await response.json();
+        // bot.sendMessage(msg.chat.id ? msg.chat.id : chatId, data.joke);
+
+        return data.joke;
+    });
 });
