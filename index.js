@@ -111,7 +111,7 @@ bot.onText(/\/start/, (msg) => {
 
 // Handle button presses
 
-bot.on('callback_query', async (callbackQuery) => {
+bot.on('callback_query', (callbackQuery) => {
     console.log(callbackQuery);
 
     const chatId = callbackQuery.message.chat.id;
@@ -123,7 +123,7 @@ bot.on('callback_query', async (callbackQuery) => {
     //     return data.joke;
     // });
 
-    bot.sendMessage(chatId, () => {
+    bot.sendMessage(chatId, async () => {
         return `You pressed button ${button}`;
     });
 });
