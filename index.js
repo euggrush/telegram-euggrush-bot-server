@@ -110,33 +110,31 @@ const getJoke = async () => {
     }
 };
 
-
-
 // Handle button presses
-bot.on('callback_query', async (callbackQuery) => {
-    const chatId = callbackQuery.message.chat.id;
-    const button = callbackQuery.data;
+// bot.on('callback_query', async (callbackQuery) => {
+//     const chatId = callbackQuery.message.chat.id;
+//     const button = callbackQuery.data;
 
-    if (button == `joke`) {
-        let joke = await getJoke();
-        bot.sendMessage(chatId, joke).then(() => {
-            bot.sendMessage(chatId, 'Choose an option:', {
-                reply_markup: {
-                    inline_keyboard: menu
-                }
-            });
-        });
-    } else if (button == `chatgpt`) {
-        let chat = await getChatGpt(`hi`);
-        bot.sendMessage(chatId, chat).then(() => {
-            bot.sendMessage(chatId, 'Choose an option:', {
-                reply_markup: {
-                    inline_keyboard: menu
-                }
-            });
-        });
-    }
-});
+//     if (button == `joke`) {
+//         let joke = await getJoke();
+//         bot.sendMessage(chatId, joke).then(() => {
+//             bot.sendMessage(chatId, 'Choose an option:', {
+//                 reply_markup: {
+//                     inline_keyboard: menu
+//                 }
+//             });
+//         });
+//     } else if (button == `chatgpt`) {
+//         let chat = await getChatGpt(`hi`);
+//         bot.sendMessage(chatId, chat).then(() => {
+//             bot.sendMessage(chatId, 'Choose an option:', {
+//                 reply_markup: {
+//                     inline_keyboard: menu
+//                 }
+//             });
+//         });
+//     }
+// });
 
 // Handle incoming messages with the bot's `on` method
 bot.on('message', async (msg) => {
