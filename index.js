@@ -12,7 +12,7 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 // Create a new Telegram bot instance with your bot token
 const bot = new TelegramBot(BOT_TOKEN, {
-    polling: true
+    polling: false
 });
 
 import {
