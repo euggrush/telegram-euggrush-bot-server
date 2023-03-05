@@ -81,33 +81,23 @@ bot.onText(/\/start/, (msg) => {
     });
 });
 
-// const getChatGpt = async (msg) => {
-//     // Generate a response using ChatGPT
-//     const prompt = `User: ${msg.text}\nChatGPT:`;
+const getChatGpt = async (msg) => {
+    // Generate a response using ChatGPT
+    const prompt = `User: ${msg.text}\nChatGPT:`;
 
-//     let request = JSON.stringify({
-//         model: 'text-davinci-003',
-//         prompt
-//     })
-//     const response = await openai.createCompletion(request);
+    let request = JSON.stringify({
+        model: 'text-davinci-003',
+        prompt
+    })
+    const response = await openai.createCompletion(request);
 
-//     // Extract the generated response text from the API response
-//     const generatedText = response.data.choices[0].text.trim();
+    // Extract the generated response text from the API response
+    const generatedText = response.data.choices[0].text.trim();
 
-//     // Respond to the user's message with the generated response
-//     bot.sendMessage(msg.chat.id, generatedText);
-// };
-
-// Handle incoming messages with the bot's `on` method
-// bot.on('message', async (msg) => {
-//     // If the message contains the word "joke", generate a joke using the JokeAPI
-//     getChatGpt(msg);
-//     // if (msg.text && msg.text.toLowerCase().includes('joke')) {
-//     //     getJoke(msg);
-//     // } else {
-//     //     getChatGpt(msg);
-//     // }
-// });
+    // Respond to the user's message with the generated response
+    // bot.sendMessage(msg.chat.id, generatedText);
+    return generatedText;
+};
 
 // Get some jokes
 const getJoke = async () => {
@@ -137,8 +127,17 @@ bot.on('callback_query', async (callbackQuery) => {
                 }
             });
         });
+    } else if (button == `chatgpt`) {
+        let chat = await getChatGpt(`hi`);
+        bot.sendMessage(chat);
     }
 });
 
-
+// Handle incoming messages with the bot's `on` method
+bot.on('message', async (msg) => {
+    // If the message contains the word "joke", generate a joke using the JokeAPI
+    // getChatGpt(msg);
+    const generatedText = await getChatGpt(msg);
+    bot.sendMessage(msg.chat.id, generatedText);
+});
 
