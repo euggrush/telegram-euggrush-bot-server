@@ -129,7 +129,13 @@ bot.on('callback_query', async (callbackQuery) => {
         });
     } else if (button == `chatgpt`) {
         let chat = await getChatGpt(`hi`);
-        bot.sendMessage(chat);
+        bot.sendMessage(chatId, chat).then(() => {
+            bot.sendMessage(chatId, 'Choose an option:', {
+                reply_markup: {
+                    inline_keyboard: menu
+                }
+            });
+        });
     }
 });
 
