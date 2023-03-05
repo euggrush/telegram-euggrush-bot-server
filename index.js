@@ -12,7 +12,7 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 // Create a new Telegram bot instance with your bot token
 const bot = new TelegramBot(BOT_TOKEN, {
-    polling: false
+    polling: true
 });
 
 import {
@@ -60,16 +60,16 @@ const menu = [
             callback_data: 'chatgpt'
         }
     ],
-    [
-        {
-            text: 'Button 3',
-            callback_data: 'button3'
-        },
-        {
-            text: 'Button 4',
-            callback_data: 'button4'
-        }
-    ]
+    // [
+    //     {
+    //         text: 'Button 3',
+    //         callback_data: 'button3'
+    //     },
+    //     {
+    //         text: 'Button 4',
+    //         callback_data: 'button4'
+    //     }
+    // ]
 ];
 
 // Respond to the /start command with the menu
@@ -95,7 +95,6 @@ const getChatGpt = async (msg) => {
     const generatedText = response.data.choices[0].text.trim();
 
     // Respond to the user's message with the generated response
-    // bot.sendMessage(msg.chat.id, generatedText);
     return generatedText;
 };
 
@@ -141,8 +140,6 @@ bot.on('callback_query', async (callbackQuery) => {
 
 // Handle incoming messages with the bot's `on` method
 bot.on('message', async (msg) => {
-    // If the message contains the word "joke", generate a joke using the JokeAPI
-    // getChatGpt(msg);
     const generatedText = await getChatGpt(msg);
     bot.sendMessage(msg.chat.id, generatedText);
 });
