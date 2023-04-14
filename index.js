@@ -7,6 +7,7 @@ import {
 } from 'dotenv';
 config();
 
+const PORT = process.env.PORT || 3333;
 const BOT_TOKEN = process.env.TELEGRAM_API_TOKEN;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
@@ -44,8 +45,8 @@ app.post(`/euggrush-tg-bot`, (req, res) => {
 });
 
 // Start the Express.js application on port 3333
-app.listen(3333, () => {
-    console.log('Express.js server running on port 3333');
+app.listen(PORT, () => {
+    console.log(`Express.js server running on port ${PORT}`);
 });
 
 // Define the menu buttons
