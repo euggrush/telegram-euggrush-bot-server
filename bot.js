@@ -5,6 +5,9 @@ import db from "./db.js";
 
 dotenv.config();
 
+const app = express();
+const PORT = process.env.PORT || 3000;
+
 // Проверяем, есть ли ключи API
 if (!process.env.TELEGRAM_BOT_TOKEN || !process.env.GPT_API_KEY) {
     console.error("Ошибка: TELEGRAM_BOT_TOKEN или GPT_API_KEY не найдены в .env");
@@ -70,3 +73,12 @@ bot.on("message", async (msg) => {
 });
 
 console.log("✅ Бот запущен...");
+
+// Фейковый сервер для Render
+app.get("/", (req, res) => {
+    res.send("Бот работает 🚀");
+});
+
+app.listen(PORT, () => {
+    console.log(`✅ Сервер запущен на порту ${PORT}`);
+});
